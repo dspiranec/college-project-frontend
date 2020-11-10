@@ -1,2 +1,3 @@
-# Laravel+MySQL - Movie app
- Frotend projekt za filmove
+# Angular - Movie app
+ -Frontend projekt napravljen u Angularu
+ -Aplikacija za filmove
