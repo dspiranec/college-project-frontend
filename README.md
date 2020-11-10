@@ -1,4 +1,4 @@
 # Angular - Movie app
- -Frontend projekt napravljen u Angularu
+ -Frontend project made in Angular
 
- -Aplikacija za filmove
+ -Application used for movies, something like imbd.
