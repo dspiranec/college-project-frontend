@@ -1,0 +1,21 @@
+<div class="boja">
+    <nav class="navbar justify-content-between">
+        <a routerLink="/movies" 
+        class="navbar-brand text-decoration-none h1 text-dark"> Movies </a>
+
+        <div>
+            <a routerLink="/adminDashboard" 
+            class="navbar-brand text-decoration-none h1 text-dark" [hidden]="!isAdmin()" *ngIf="loggedIn"> Dashboard </a>
+            
+            <a routerLink="/profile" 
+            class="navbar-brand text-decoration-none h1 text-dark" *ngIf="loggedIn"> Profile </a>
+
+            <a routerLink="/login" 
+            class="navbar-brand text-decoration-none h1 text-dark" *ngIf="!loggedIn"> Login </a>
+            
+            <a href="#" (click)="logout($event)" 
+            class="navbar-brand text-decoration-none h1 text-dark"*ngIf="loggedIn"> Logout </a>
+        </div>
+    </nav>
+    <hr class="p-2 m-0 boja-line"/>
+  </div>

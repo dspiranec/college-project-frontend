@@ -1,0 +1,175 @@
+<div class="container">
+    <div class="row">
+        <div class="col"> <!-- GETALL()-->
+            <div class="alert alert-danger p-2 mt-3" [hidden]="!error"> {{error}} </div>
+            <div class="alert alert-success p-2 mt-3" [hidden]="!message"> {{message}} </div>
+            <ul data-aos="fade-up" style="list-style-type: none;">
+                <li data-aos="fade-up" class="m-2 p-2 min-sizing-li border-bottom"
+                *ngFor="let movie of movies"
+                style=" align-items: center;"> 
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-9">
+                                <div *ngIf="isAdmin()">
+                                    <img [src]="movie.picture_url" alt="movie.name" class="rounded float-left">
+                                    <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
+                                        Movie name - 
+                                        <span *ngIf="movie!==editMovie">{{movie.name}}</span> 
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.name" (blur)="update()" (keyup.enter)="update()"> 
+                                    </a>
+                                    <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
+                                        Year Release - 
+                                        <span *ngIf="movie!==editMovie">{{movie.year_realase}} </span> 
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.year_realase" (blur)="update()" (keyup.enter)="update()"> 
+                                    </a>
+                                    <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
+                                        Movie length - 
+                                        <span *ngIf="movie!==editMovie">{{movie.movie_length}} mins</span> 
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.movie_length" (blur)="update()" (keyup.enter)="update()"> 
+                                    </a>
+                                    <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
+                                        Main Actors - 
+                                        <span *ngIf="movie!==editMovie">{{movie.actors}}</span> 
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.actors" (blur)="update()" (keyup.enter)="update()"> 
+                                    </a>
+                                    <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
+                                        Director - 
+                                        <span *ngIf="movie!==editMovie">{{movie.director}}</span> 
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.director" (blur)="update()" (keyup.enter)="update()"> 
+                                    </a>
+                                    <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
+                                        IMBD Rating - 
+                                        <span *ngIf="movie!==editMovie">{{movie.imbd}}</span> 
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.imbd" (blur)="update()" (keyup.enter)="update()"> 
+                                    </a>
+                                    <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
+                                        Description - 
+                                        <span *ngIf="movie!==editMovie">{{movie.description}}</span> 
+                                        <textarea rows="4" cols="60" *ngIf="movie===editMovie" [(ngModel)]="movie.description" (blur)="update()" (keyup.enter)="update()" ></textarea> 
+                                    </a>
+                                </div>
+                                <div *ngIf="!isAdmin()">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <img [src]="movie.picture_url" alt="movie.name" class="img-thumbnail w-25 p-0">
+                                            <h5 class="card-title">Movie name - {{movie.name}} </h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">Details</h6>
+                                            <p class="card-text">Year release: {{movie.year_realase}} </p>
+                                            <p class="card-text">Actors: {{movie.actors}} </p>
+                                            <hr class="p-2 m-0"/>
+                                            <p class="card-text">Description: {{movie.description}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="col-3 align-self-center text-center p-2">
+                                <div *ngIf="isAdmin()">
+                                    <button type="button" (click)="delete(movie)" class="btn btn-danger mt-1 mb-1">Delete</button>
+                                </div>
+                                
+
+                                <a [routerLink]="['/movies',movie.id]"
+                                class="btn btn-primary text-decoration-none mt-1 mb-1">
+                                    Details
+                                </a>
+                                <div *ngIf="isLoggedIn()">   
+                                    <div *ngIf="isFavorite(movie.id)">
+                                        <a (click)="removeFromFavorites(movie)" class="btn btn-warning mt-1 mb-1">X Favorite</a>
+                                    </div>
+                                    <div *ngIf="!isFavorite(movie.id)">
+                                        <a (click)="addToFavorites(movie)" class="btn btn-outline-warning mt-1 mb-1">Favorite</a>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>           
+                </li>
+                <div *ngIf="isAdmin()">
+                    <div class="card card-body bg-light text-center">
+                        <span class="small">Click on movie item to edit</span>
+                    </div>
+                </div>
+                
+            </ul>
+        </div>
+
+        <div *ngIf="isAdmin()">
+        
+            <div data-aos="fade-up" class="col"> <!-- ADDNEW()-->
+                <p class="h2 p-2 m-2">Add new Movie</p>
+                <form [formGroup]="movieForm" (ngSubmit)="onSubmit()" (submit)="add(movieName?.value, yearRelease?.value, movieLength?.value, actors?.value, director?.value, imbd?.value, description?.value);
+                movieName.value=''; yearRelease.value=''; movieLength.value=''; actors.value=''; director.value=''; imbd.value=''; description.value='';">
+                    <div class="form-group">
+                        <label class="border-left border-bottom border-danger m-2 p-1">Movie Name</label>
+                        <input #movieName type="text" formControlName="movieName" class="form-control p-2 m-2" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.movieName.errors }" />
+                        <div *ngIf="submitted && f.movieName.errors" class="invalid-feedback">
+                            <div *ngIf="f.movieName.errors.required">Movie name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="border-left border-bottom border-danger m-2 p-1">Year Release</label>
+                        <input #yearRelease formControlName="yearRelease" type="number" class="form-control p-2 m-2" placeholder="Year" [ngClass]="{ 'is-invalid': submitted && f.yearRelease.errors }" />
+                        <div *ngIf="submitted && f.yearRelease.errors" class="invalid-feedback">
+                            <div *ngIf="f.yearRelease.errors.required">Movie year is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="border-left border-bottom border-danger m-2 p-1">Movie length</label>
+                        <input #movieLength formControlName="movieLength" type="number" class="form-control p-2 m-2" placeholder="length" [ngClass]="{ 'is-invalid': submitted && f.movieLength.errors }" />
+                        <div *ngIf="submitted && f.movieLength.errors" class="invalid-feedback">
+                            <div *ngIf="f.movieLength.errors.required">Movie length is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="border-left border-bottom border-danger m-2 p-1">Main actors</label>
+                        <input #actors formControlName="actors" type="text" class="form-control p-2 m-2" placeholder="Actors" [ngClass]="{ 'is-invalid': submitted && f.actors.errors }" />
+                        <div *ngIf="submitted && f.actors.errors" class="invalid-feedback">
+                            <div *ngIf="f.actors.errors.required">Main actors are required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="border-left border-bottom border-danger m-2 p-1">Director</label>
+                        <input #director formControlName="director" type="text" class="form-control p-2 m-2" placeholder="Director" [ngClass]="{ 'is-invalid': submitted && f.director.errors }" />
+                        <div *ngIf="submitted && f.director.errors" class="invalid-feedback">
+                            <div *ngIf="f.director.errors.required">Director is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="border-left border-bottom border-danger m-2 p-1">IMBD Rating</label>
+                        <input #imbd formControlName="imbd" type="number" class="form-control p-2 m-2" placeholder="IMBD" [ngClass]="{ 'is-invalid': submitted && f.imbd.errors }" />
+                        <div *ngIf="submitted && f.imbd.errors" class="invalid-feedback">
+                            <div *ngIf="f.imbd.errors.required">IMBD Rating is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="border-left border-bottom border-danger m-2 p-1">Description</label>
+                        <textarea rows="4" cols="60" #description formControlName="description" type="text" class="form-control p-2 m-2" placeholder="Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                            <div *ngIf="f.description.errors.required">Description is required</div>
+                        </div>
+                    </div>
+                    <!--
+                        <div class="form-group">
+                        <input #movieName formControlName="movieName" type="text" class="form-control p-2 m-2" placeholder="Movie Name">
+                        <input #yearRelease formControlName="yearRelease" type="number" class="form-control p-2 m-2" placeholder="Year Release">
+                        <input #movieLength formControlName="movieLength" type="number" class="form-control p-2 m-2" placeholder="Movie length">
+                        <input #actors formControlName="actors" type="text" class="form-control p-2 m-2" placeholder="Main Actors">
+                        <input #director formControlName="director" type="text" class="form-control p-2 m-2" placeholder="Director">
+                        <input #imbd formControlName="imbd" type="number" class="form-control p-2 m-2" placeholder="IMBD rating">
+                    </div>
+                    (click)="add(name.value, year_realase.value, movie_length.value, actors.value, director.value, imbd.value);
+                        name.value=''; year_realase.value=''; movie_length.value=''; actors.value=''; director.value=''; imbd.value='';">
+                    -->
+                    <div class="form-group">
+                        <input type="submit" value="ADD" class="btn btn-success btn-lg btn-block p-2 m-2">
+                    </div>
+                    
+                    
+                </form>
+        </div>
+    </div>
+</div>

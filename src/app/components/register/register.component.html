@@ -1,0 +1,68 @@
+<div class="card mt-5 p-3 shadow p-5 m-5 bg-white rounded">
+
+  
+    <div class="alert alert-success p-2" [hidden]="!flagRegister"> Successfully Registered. </div>
+    
+
+    <p class="h2 p-1">Register form</p>
+    <hr class="p-3 m-1"/>
+            <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+
+                
+                
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Username</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="name" [(ngModel)]="form.name" required 
+                      class="form-control"  placeholder="Username">
+                    </div>
+                  </div>
+                <!-- <div class="alert alert-danger p-2" [hidden]="!error.name"> {{error.name}} </div> -->
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Email</label>
+                  <div class="col-sm-10">
+                    <input type="email" name="email" [(ngModel)]="form.email" required 
+                    class="form-control" placeholder="Email">
+                  </div>
+                </div>
+              
+                <div class="form-group-row">
+                    <div class="alert alert-danger p-1" [hidden]="!flagEmail">Email is written incorrectly</div>
+                </div>
+              
+                <!--<div class="alert alert-danger p-2" [hidden]="!error.email"> {{error.email}} </div>-->
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Password</label>
+                  <div class="col-sm-10">
+                    <input type="password" name="password" [(ngModel)]="form.password" required
+                    class="form-control" placeholder="Password">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Repeat Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" name="password" [(ngModel)]="form.passsword_repeat" required
+                      class="form-control" placeholder="Repeat Password">
+                    </div>
+                  </div>
+              
+                <div class="form-group-row">
+                    <div class="alert alert-danger p-1" [hidden]="!flagPassword">Passwords doesn't match</div>
+                </div>
+              
+                <!-- <div class="alert alert-danger p-2" [hidden]="!error.password"> {{error.password}} </div> -->
+                <div class="form-group row justify-content-center">
+                  <div class="col-sm-10">
+                    <button type="submit" [disabled]="registerForm.invalid" 
+                    class="btn btn-success btn-lg btn-block p-2 m-2">
+                        Register
+                    </button>
+                  </div>
+                </div>
+
+                
+                
+                
+            </form>
+</div>

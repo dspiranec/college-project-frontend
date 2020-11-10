@@ -1,0 +1,33 @@
+<div class="card align-items-left shadow p-5 m-5 bg-white rounded" >
+    
+    <p class="h6 text-danger">Role</p>
+    <div class="display-4 p-2">{{currentUserRole}}</div>
+    <hr class="p-2 m-0"/>
+    <p class="h6 text-danger">Username</p>
+    <div class="display-4 p-2">{{currentUser.name}}</div>
+    <hr class="p-2 m-0"/>
+    <p class="h6 text-danger">Email</p>
+    <div class="display-4 p-2">{{currentUser.email}}</div>
+   
+</div>
+
+<p class="display-4">Favorites</p>
+    <ul class="list-group">
+        <li class=" list-group-item m-2 p-2 border-top-0 border-0 border-left-0 border-right-0"
+            *ngFor="let favorite of favorites"
+            style=" align-items: center;"> 
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Movie name - {{favorite.name}} </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Details</h6>
+                        <p class="card-text">Year release: {{favorite.year_realase}} </p>
+                        <p class="card-text">Actors: {{favorite.actors}} </p>
+                        <hr class="p-2 m-0"/>
+                        <p class="card-text">Description: {{favorite.description}} </p>
+                    </div>
+                </div>
+            </li>
+    </ul>
+
+
+

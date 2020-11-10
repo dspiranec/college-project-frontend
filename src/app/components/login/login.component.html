@@ -1,0 +1,46 @@
+<div class="mt-4 col-8 offset-2">
+
+    <div class="card align-items-center shadow p-5 m-5 bg-white rounded" >
+        <p class="h2">Register if you are a new member</p>
+        <a routerLink="/register" 
+        class="btn btn-primary border border-warning p-3 m-3"> Register </a>
+    </div>
+    
+    <hr class="p-3 m-0"/>
+    
+    <div class="card mt-5">
+        <div class="card-header">Login</div>
+
+        <div class="card-body">
+            <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+              
+              <div class="alert alert-danger p-2" [hidden]="!error"> {{error}} </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Email</label>
+                  <div class="col-sm-10">
+                    <input type="email" name="email" [(ngModel)]="form.email" required 
+                    class="form-control" id="inputEmail3" placeholder="Email">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Password</label>
+                  <div class="col-sm-10">
+                    <input type="password" name="password" [(ngModel)]="form.password" required
+                    class="form-control" id="inputPassword3" placeholder="Password">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-sm-10">
+                    <button type="submit" [disabled]="loginForm.invalid" 
+                    class="btn btn-primary">
+                        Sign in
+                    </button>
+                  </div>
+                </div>
+              </form>
+        </div>
+    </div>
+</div>
