@@ -3,6 +3,7 @@ import { Movie } from '../../interfaces/movie';
 import { MovieService } from '../../services/movie.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TokenService } from 'src/app/services/token.service';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-movie',
@@ -21,22 +22,23 @@ export class MovieComponent implements OnInit {
   movieDeleted: false;
   error = null;
   message = null;
-
+  searchedMovie: Movie;
   constructor(
     private movieService: MovieService,
     private formBuilder: FormBuilder,
-    private tokenService: TokenService
-    ) { 
-      
+    private tokenService: TokenService,
+    private http: HttpClient
+    ) {
+
     }
-    
+
   ngOnInit(): void {
     this.getMovies();
     if(this.isLoggedIn()){
       this.currentUserId = +sessionStorage.getItem('currentUserId');
       this.getFavorites(this.currentUserId);
     }
-    
+
     this.movieForm = this.formBuilder.group({
       movieName: ['', Validators.required],
       yearRelease: ['', Validators.required],
@@ -56,9 +58,9 @@ export class MovieComponent implements OnInit {
         return;
     }
   }
-	
+
   get f() { return this.movieForm.controls; }
-  
+
   isLoggedIn(): boolean {
     let flag = this.tokenService.isLoggedIn();
     if(flag){
@@ -80,21 +82,24 @@ export class MovieComponent implements OnInit {
   getMovies(): void {
     this.movieService.getMovies()
     .subscribe(movies => this.movies = movies);
-    
+  }
+
+  updateUrl(event) {
+    event.target.src = 'https://picsum.photos/150/150';
   }
 
   add(name: string, year_realase: number, movie_length: number, actors: string, director: string, imbd: number, description: string): void{
 
     if(!name || !year_realase || !movie_length || !actors || !director || !imbd || !description){
       return ;
-    } 
+    }
 
     this.editMovie = undefined;
     name = name.trim();
     actors = actors.trim();
     director = director.trim();
     description = description.trim();
-    
+
 
     const newMovie: Movie = { name, year_realase, movie_length, actors, director, imbd, description } as unknown as Movie;
     this.movieService
@@ -113,9 +118,9 @@ export class MovieComponent implements OnInit {
       );
 
       this.movies = this.movies.filter(movies => movies.id !== movie.id);
-      
+
     }
-    
+
   }
 
   edit(movie){
@@ -139,7 +144,7 @@ export class MovieComponent implements OnInit {
   }
 
   addToFavorites(movie: Movie): void{
-    
+
     this.movieService.addToFavorites(this.currentUserId, movie.id)
     .subscribe(//_ => {
       //this.favorites.push(movie),
@@ -149,8 +154,25 @@ export class MovieComponent implements OnInit {
     );
   }
 
+  searchMovie(title: string) {
+    if (title && title.length > 0) {
+      return this.http.get(`http://www.omdbapi.com/?t=${title}&apikey=c38ad411`)
+        .subscribe((data: any) => {
+          if (data.Response === 'True') {
+            this.searchedMovie = new Movie();
+            this.searchedMovie.name = data.Title;
+            this.searchedMovie.actors = data.Actors;
+            this.searchedMovie.director = data.Director;
+            this.searchedMovie.picture_url = data.Poster;
+            this.searchedMovie.description = data.Plot;
+            this.searchedMovie.year_realase = data.Year;
+          }
+        });
+    }
+  }
+
   removeFromFavorites(movie: Movie): void{
-    
+
     this.movieService.removeFromFavorites(this.currentUserId, movie.id)
     .subscribe(//_ => {
       //this.favorites = this.favorites.filter(favorites => favorites.id !== movie.id),
@@ -177,7 +199,7 @@ export class MovieComponent implements OnInit {
         }
       }
     }
- 
+
     return false;
   }
 
@@ -206,10 +228,9 @@ export class MovieComponent implements OnInit {
       this.favorites = this.favorites.filter(favorites => favorites.id !== data.movie.id);
     }
   }
-  
+
   handleError(error){
     this.error = error.error.error;
   }
 
 }
-	

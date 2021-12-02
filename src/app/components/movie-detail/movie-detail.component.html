@@ -5,7 +5,7 @@
         <hr class="p-2 m-0"/>
         <img [src]="movie.picture_url" alt="movie.name" class="img-thumbnail p-0">
         <div class="d-flex justify-content-between">
-            
+
             <div class="p-2">
                 <p class="h4 text-danger">Movie name</p>
                 <div class="h5 p-2">{{movie.name}}</div>
@@ -19,8 +19,8 @@
             <div class="p-2">
                 <p class="h4 text-danger">Movie length</p>
                 <div class="h5 p-2">{{movie.movie_length}} minutes</div>
-            </div>         
-            
+            </div>
+
         </div>
 
         <div class="d-flex justify-content-between">
@@ -29,14 +29,14 @@
             <div class="h5 p-2">{{movie.director}}</div>
             </div>
 
-            <div class="p-2">  
+            <div class="p-2">
                 <p class="h4 text-danger">IMBD Rating</p>
                 <div class="h5 p-2">{{movie.imbd}}</div>
             </div>
         </div>
-        
-        
-        
+
+
+
 
         <p class="h4 text-danger">Main Actors</p>
         <div class="h5 p-2">{{movie.actors}}</div>
@@ -44,12 +44,11 @@
         <p class="h4 text-danger">Description</p>
         <div class="h5 p-2">{{movie.description}}</div>
 
-        
-        <iframe class="embed-responsive" width="560" height="315" 
-            [src]="safeURL(movie.trailer_url)" frameborder="0" 
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
+        <iframe class="embed-responsive" width="560" height="315"
+            [src]="safeURL(movie.trailer_url)">
         </iframe>
-        
+
 
         <div class="embed-responsive">
             <iframe class="embed-responsive-item" [src]="safeURL(movie.trailer_url)" allowfullscreen></iframe>
@@ -63,28 +62,28 @@
     </div>
 
     <!--
-    <div class=" d-flex justify-content-center">  
+    <div class=" d-flex justify-content-center">
         <div class="border border-light p-2 m-2"
         style="display: block; ">
-            <span>Main actors: </span>{{movie.actors}} 
+            <span>Main actors: </span>{{movie.actors}}
         </div>
     </div>
-    <div class=" d-flex justify-content-center">  
+    <div class=" d-flex justify-content-center">
         <div class="border border-light p-2 m-2"
         style="display: block; ">
-            <span>Movie director: </span>{{movie.director}} 
+            <span>Movie director: </span>{{movie.director}}
         </div>
     </div>
-    <div class=" d-flex justify-content-center">  
+    <div class=" d-flex justify-content-center">
         <div class="border border-light p-2 m-2"
         style="display: block; ">
-            <span>IMBD Rating: </span>{{movie.imbd}} 
+            <span>IMBD Rating: </span>{{movie.imbd}}
         </div>
     </div>
-    <div class=" d-flex justify-content-center">  
+    <div class=" d-flex justify-content-center">
         <div class="border border-light p-2 m-2"
         style="display: block; ">
-            <span>Description: </span>{{movie.description}} 
+            <span>Description: </span>{{movie.description}}
         </div>
     </div>
     <div class="col text-center">

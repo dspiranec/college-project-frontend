@@ -1,4 +1,17 @@
 <div class="container">
+  <label class="border-left border-bottom border-danger m-2 p-1">Search your movie!</label>
+  <input class="form-control p-2 m-2" placeholder="Movie name" #box (keyup.enter)="searchMovie(box.value)">
+  <div *ngIf="searchedMovie !== undefined">
+    <div class="card align-items-center shadow p-5 m-5 bg-white rounded">
+      <img [src]="searchedMovie.picture_url" alt="movie.name" class="img-thumbnail w-25 p-0">
+      <h5 class="card-title">Movie name - {{searchedMovie.name}} </h5>
+      <h6 class="card-subtitle mb-2 text-muted">Details</h6>
+      <p class="card-text">Year release: {{searchedMovie.year_realase}} </p>
+      <p class="card-text">Actors: {{searchedMovie.actors}} </p>
+      <hr class="p-2 m-0"/>
+      <p class="card-text">Description: {{searchedMovie.description}} </p>
+    </div>
+  </div>
     <div class="row">
         <div class="col"> <!-- GETALL()-->
             <div class="alert alert-danger p-2 mt-3" [hidden]="!error"> {{error}} </div>
@@ -6,46 +19,46 @@
             <ul data-aos="fade-up" style="list-style-type: none;">
                 <li data-aos="fade-up" class="m-2 p-2 min-sizing-li border-bottom"
                 *ngFor="let movie of movies"
-                style=" align-items: center;"> 
+                style=" align-items: center;">
                     <div class="container">
                         <div class="row">
                             <div class="col-9">
                                 <div *ngIf="isAdmin()">
-                                    <img [src]="movie.picture_url" alt="movie.name" class="rounded float-left">
+                                    <img [src]="movie.picture_url" (error)="updateUrl($event)" alt="movie.name" class="rounded float-left" width="100" height="100">
                                     <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
-                                        Movie name - 
-                                        <span *ngIf="movie!==editMovie">{{movie.name}}</span> 
-                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.name" (blur)="update()" (keyup.enter)="update()"> 
+                                        Movie name -
+                                        <span *ngIf="movie!==editMovie">{{movie.name}}</span>
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.name" (blur)="update()" (keyup.enter)="update()">
                                     </a>
                                     <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
-                                        Year Release - 
-                                        <span *ngIf="movie!==editMovie">{{movie.year_realase}} </span> 
-                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.year_realase" (blur)="update()" (keyup.enter)="update()"> 
+                                        Year Release -
+                                        <span *ngIf="movie!==editMovie">{{movie.year_realase}} </span>
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.year_realase" (blur)="update()" (keyup.enter)="update()">
                                     </a>
                                     <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
-                                        Movie length - 
-                                        <span *ngIf="movie!==editMovie">{{movie.movie_length}} mins</span> 
-                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.movie_length" (blur)="update()" (keyup.enter)="update()"> 
+                                        Movie length -
+                                        <span *ngIf="movie!==editMovie">{{movie.movie_length}} mins</span>
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.movie_length" (blur)="update()" (keyup.enter)="update()">
                                     </a>
                                     <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
-                                        Main Actors - 
-                                        <span *ngIf="movie!==editMovie">{{movie.actors}}</span> 
-                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.actors" (blur)="update()" (keyup.enter)="update()"> 
+                                        Main Actors -
+                                        <span *ngIf="movie!==editMovie">{{movie.actors}}</span>
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.actors" (blur)="update()" (keyup.enter)="update()">
                                     </a>
                                     <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
-                                        Director - 
-                                        <span *ngIf="movie!==editMovie">{{movie.director}}</span> 
-                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.director" (blur)="update()" (keyup.enter)="update()"> 
+                                        Director -
+                                        <span *ngIf="movie!==editMovie">{{movie.director}}</span>
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.director" (blur)="update()" (keyup.enter)="update()">
                                     </a>
                                     <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
-                                        IMBD Rating - 
-                                        <span *ngIf="movie!==editMovie">{{movie.imbd}}</span> 
-                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.imbd" (blur)="update()" (keyup.enter)="update()"> 
+                                        IMBD Rating -
+                                        <span *ngIf="movie!==editMovie">{{movie.imbd}}</span>
+                                        <input *ngIf="movie===editMovie" [(ngModel)]="movie.imbd" (blur)="update()" (keyup.enter)="update()">
                                     </a>
                                     <a (click)="edit(movie)" class="d-block border-bottom text-decoration-none p-2 m-2 min-sizing rounded h5">
-                                        Description - 
-                                        <span *ngIf="movie!==editMovie">{{movie.description}}</span> 
-                                        <textarea rows="4" cols="60" *ngIf="movie===editMovie" [(ngModel)]="movie.description" (blur)="update()" (keyup.enter)="update()" ></textarea> 
+                                        Description -
+                                        <span *ngIf="movie!==editMovie">{{movie.description}}</span>
+                                        <textarea rows="4" cols="60" *ngIf="movie===editMovie" [(ngModel)]="movie.description" (blur)="update()" (keyup.enter)="update()" ></textarea>
                                     </a>
                                 </div>
                                 <div *ngIf="!isAdmin()">
@@ -61,20 +74,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
-                            
+
                             <div class="col-3 align-self-center text-center p-2">
                                 <div *ngIf="isAdmin()">
                                     <button type="button" (click)="delete(movie)" class="btn btn-danger mt-1 mb-1">Delete</button>
                                 </div>
-                                
+
 
                                 <a [routerLink]="['/movies',movie.id]"
                                 class="btn btn-primary text-decoration-none mt-1 mb-1">
                                     Details
                                 </a>
-                                <div *ngIf="isLoggedIn()">   
+                                <div *ngIf="isLoggedIn()">
                                     <div *ngIf="isFavorite(movie.id)">
                                         <a (click)="removeFromFavorites(movie)" class="btn btn-warning mt-1 mb-1">X Favorite</a>
                                     </div>
@@ -82,23 +95,23 @@
                                         <a (click)="addToFavorites(movie)" class="btn btn-outline-warning mt-1 mb-1">Favorite</a>
                                     </div>
                                 </div>
-                                
-                                
+
+
                             </div>
                         </div>
-                    </div>           
+                    </div>
                 </li>
                 <div *ngIf="isAdmin()">
                     <div class="card card-body bg-light text-center">
                         <span class="small">Click on movie item to edit</span>
                     </div>
                 </div>
-                
+
             </ul>
         </div>
 
         <div *ngIf="isAdmin()">
-        
+
             <div data-aos="fade-up" class="col"> <!-- ADDNEW()-->
                 <p class="h2 p-2 m-2">Add new Movie</p>
                 <form [formGroup]="movieForm" (ngSubmit)="onSubmit()" (submit)="add(movieName?.value, yearRelease?.value, movieLength?.value, actors?.value, director?.value, imbd?.value, description?.value);
@@ -167,8 +180,8 @@
                     <div class="form-group">
                         <input type="submit" value="ADD" class="btn btn-success btn-lg btn-block p-2 m-2">
                     </div>
-                    
-                    
+
+
                 </form>
         </div>
     </div>

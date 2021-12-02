@@ -37,11 +37,14 @@ export class NavbarComponent implements OnInit {
     event.preventDefault();
     //POSTAVI LOG-IN STATUS NA FALSE
     this.authService.changeAuthStatus(false);
-    
+
     //REDIRECT NA /PROFILE
-    this.router.navigateByUrl('/login');  
+    this.router.navigateByUrl('/login');
 
     //REMOVE TOKEN FROM LOCAL STORAGE
     this.tokenService.removeToken();
+
+    sessionStorage.removeItem('currentUserId');
+    sessionStorage.removeItem('currentUserRole');
   }
 }
